@@ -1,0 +1,129 @@
+openapi: 3.0.0
+info:
+  title: Order Service - Ride ordering controller
+  version: 1.0.0
+
+paths:
+  /order:
+    post:
+      tags:
+        - Order creation
+      summary: Create a new order
+      requestBody:
+        description: Order params
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Ride_request"
+
+      responses:
+        "201":
+          description: Created      
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+
+  /order/{orderId}:
+    get:
+      tags:
+        - Order lifecycle
+      summary: Get an order by ID
+      parameters:
+        - in: path
+          name: orderId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the order to get
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+
+  /order/{orderId}/cancel:
+    post:
+      tags:
+        - Order lifecycle
+      summary: Cancel order by ID
+      parameters:
+        - in: path
+          name: orderId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the order to cancel
+      responses:
+        '202':
+          description: Cancellation accepted
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+
+
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+        customer_id: 
+          type: string
+        status:
+          type: string
+        immediate:
+          type: boolean
+        booking_class:
+          type: string
+        from_geo:
+          type: object
+          properties:
+            lat:
+              type: number
+            lon: 
+              type: number
+        to_geo:
+          type: object
+          properties:
+            lat:
+              type: number
+            lon: 
+              type: number
+        created_at:
+          type: string
+
+    Ride_request:
+      type: object
+      properties:
+        customer_id: 
+          type: string
+        immediate:
+          type: boolean
+        booking_class:
+          type: string
+        from_geo:
+          type: object
+          properties:
+            lat:
+              type: number
+            lon: 
+              type: number
+        to_geo:
+          type: object
+          properties:
+            lat:
+              type: number
+            lon: 
+              type: number
