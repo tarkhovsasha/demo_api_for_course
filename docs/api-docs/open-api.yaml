@@ -3,6 +3,12 @@ info:
   title: Order Service - Ride ordering controller
   version: 1.0.0
 
+servers:
+  - url: "{server}/api/v1"
+    variables:
+      server:
+        default: https://gateway.example.com
+
 paths:
   /order:
     post:
